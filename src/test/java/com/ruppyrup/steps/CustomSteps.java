@@ -1,5 +1,6 @@
 package com.ruppyrup.steps;
 
+import com.ruppyrup.Main;
 import com.ruppyrup.SpringBean;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -13,7 +14,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @Slf4j
 @CucumberContextConfiguration
-@SpringBootTest
+@SpringBootTest(classes = Main.class)
 public class CustomSteps {
 
     private String resultMessage;
