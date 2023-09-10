@@ -24,7 +24,7 @@ dependencies {
     testImplementation "io.cucumber:cucumber-java:${cucumberVersion}"
     testImplementation "io.cucumber:cucumber-spring:${cucumberVersion}"
     testImplementation "io.cucumber:cucumber-jvm:${cucumberVersion}"
-    testImplementation "io.cucumber:cucumber-junit-platform-engine:${cucumberVersion}"
+    testImplementation "io.cucumber:cucumber-junit-platform-engine:${cucumberVersion}" // this will use junit 5 cucumber-junit uses Junit4
 
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testImplementation 'org.junit.platform:junit-platform-suite'
