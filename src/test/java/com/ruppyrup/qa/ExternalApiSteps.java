@@ -16,7 +16,7 @@ import java.util.List;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @Slf4j
-public class TranslationSteps {
+public class ExternalApiSteps {
 
     @Autowired
     private TestData testDataEnhancer;
@@ -24,10 +24,13 @@ public class TranslationSteps {
     @Autowired
     private RestTemplate customRestTemplate;
 
-    @Given("the {string} can be tested")
-    public void theCanBeTested(String url) {
-        testDataEnhancer.setData("url", url);
-        log.info("The url to be tested :: " + url);
+    @Given("the url with scheme {string}, host {string}, port {int} and path {string} can be tested")
+    public void theCanBeTested(String scheme, String host, Integer port, String path) {
+        testDataEnhancer.setData("scheme", scheme);
+        testDataEnhancer.setData("host", host);
+        testDataEnhancer.setData("port", port);
+        testDataEnhancer.setData("path", path);
+        log.info("The url to be tested :: " + scheme + "://" + host + ":" + port + "/" + path);
     }
 
 
@@ -59,10 +62,10 @@ public class TranslationSteps {
         HttpEntity<String> entity = new HttpEntity<>(blogMessage, headers);
 
         UriComponents uriComponents = UriComponentsBuilder.newInstance()
-                .scheme("http")
-                .host("localhost")
-                .port(8040)
-                .path("translation")
+                .scheme(testDataEnhancer.getData("scheme", String.class))
+                .host(testDataEnhancer.getData("host", String.class))
+                .port(testDataEnhancer.getData("port", Integer.class))
+                .path(testDataEnhancer.getData("path", String.class))
                 .build();
 
         var responseEntity = customRestTemplate.exchange(uriComponents.toString(), HttpMethod.POST, entity, String.class);
