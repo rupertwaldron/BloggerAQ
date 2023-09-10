@@ -19,8 +19,7 @@ import java.util.List;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @Slf4j
-@SpringBootTest(classes = TestConfig.class)
-public class TranslationSteps {
+public class TranslationSteps extends SpringIntegrationTest {
     private String urlUnderTest;
 
     @Autowired

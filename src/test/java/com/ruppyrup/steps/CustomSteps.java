@@ -13,9 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @Slf4j
-@CucumberContextConfiguration
-@SpringBootTest(classes = Main.class)
-public class CustomSteps {
+public class CustomSteps extends SpringIntegrationTest {
 
     private String resultMessage;
 

@@ -8,6 +8,12 @@ plugins {
 group = 'com.ruppyrup'
 version = '1.0-SNAPSHOT'
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
 repositories {
     mavenCentral()
 }
@@ -43,3 +49,5 @@ wrapper {
     gradleVersion '8.3'
     distributionType Wrapper.DistributionType.ALL
 }
+
+check.dependsOn("runCukesTest")
