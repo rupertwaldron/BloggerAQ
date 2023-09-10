@@ -17,31 +17,34 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @Slf4j
 public class TranslationSteps {
-    private String urlUnderTest;
+
+    @Autowired
+    private TestData testDataEnhancer;
 
     @Autowired
     private RestTemplate customRestTemplate;
-    private ResponseEntity<String> responseEntity;
 
     @Given("the {string} can be tested")
     public void theCanBeTested(String url) {
-        urlUnderTest = url;
+        testDataEnhancer.setData("url", url);
         log.info("The url to be tested :: " + url);
     }
 
 
     @When("a GET request is sent to the url")
     public void aGETRequestIsSentToTheUrl() {
-        log.info("Performing get request to ::" + urlUnderTest);
-        ResponseEntity<String> response = customRestTemplate.getForEntity(urlUnderTest, String.class);
-        responseEntity = response;
+        String url = testDataEnhancer.getData("url", String.class);
+        log.info("Performing get request to ::" + url);
+        ResponseEntity<String> response = customRestTemplate.getForEntity(url, String.class);
+        testDataEnhancer.setData("response", response);
     }
 
 
     @Then("the response {string} is received")
     public void theResponseIsReceived(String requiredResponse) {
         log.info("Checking the response is received ::" + requiredResponse);
-        assertThat(responseEntity.getBody()).isEqualTo(requiredResponse);
+        ResponseEntity<String> response = testDataEnhancer.getData("response", ResponseEntity.class);
+        assertThat(response.getBody()).isEqualTo(requiredResponse);
     }
 
     @When("a POST request is sent to the url with body {string}")
@@ -62,11 +65,13 @@ public class TranslationSteps {
                 .path("translation")
                 .build();
 
-        responseEntity = customRestTemplate.exchange(uriComponents.toString(), HttpMethod.POST, entity, String.class);
+        var responseEntity = customRestTemplate.exchange(uriComponents.toString(), HttpMethod.POST, entity, String.class);
+        testDataEnhancer.setData("response", responseEntity);
     }
 
     @Then("a response is received with status code {int}")
     public void aResponseIsReceivedWithStatusCode(int statusCode) {
-        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(statusCode));
+        ResponseEntity<String> response = testDataEnhancer.getData("response", ResponseEntity.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(statusCode));
     }
 }
