@@ -1,9 +1,9 @@
-package com.ruppyrup.steps;
+package com.ruppyrup.qa;
 
 import io.cucumber.spring.CucumberContextConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @CucumberContextConfiguration
 @SpringBootTest
-public class SpringIntegrationTest {
+public class CucumberTestContextConfiguration {
 }

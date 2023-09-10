@@ -1,4 +1,4 @@
-package com.ruppyrup.listeners;
+package com.ruppyrup.qa.listeners;
 
 import io.cucumber.plugin.ConcurrentEventListener;
 import io.cucumber.plugin.event.EventPublisher;

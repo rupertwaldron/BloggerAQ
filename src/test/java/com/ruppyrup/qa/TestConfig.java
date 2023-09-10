@@ -1,4 +1,4 @@
-package com.ruppyrup.steps;
+package com.ruppyrup.qa;
 
 import com.ruppyrup.SpringBean;
 import io.cucumber.spring.CucumberContextConfiguration;
