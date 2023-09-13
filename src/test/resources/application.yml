@@ -1,0 +1,9 @@
+jwtToken: 99
+dbPassword: chimp
+
+eureka:
+  client:
+    registerWithEureka: false
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: ${EUREKA_SERVER:http://localhost:8761/eureka}

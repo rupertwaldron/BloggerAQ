@@ -1,10 +1,13 @@
 package com.ruppyrup.qa;
 
+import io.cucumber.java.Before;
+import io.cucumber.java.Scenario;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
@@ -22,7 +25,17 @@ public class ExternalApiSteps {
     private TestData testDataEnhancer;
 
     @Autowired
-    private RestTemplate customRestTemplate;
+    ApplicationContext ctx;
+
+    @Before
+    public void setRestTemplate(Scenario scenario) {
+        boolean containsEurekaTag = scenario.getSourceTagNames().stream().anyMatch("@Eureka"::equals);
+        if (containsEurekaTag) {
+            testDataEnhancer.setData("restTemplate", ctx.getBean("loadBalancedRestTemplate", RestTemplate.class));
+        } else {
+            testDataEnhancer.setData("restTemplate", ctx.getBean("normalRestTemplate", RestTemplate.class));
+        }
+    }
 
     @Given("the url with scheme {string}, host {string}, port {int} and path {string} can be tested")
     public void theCanBeTested(String scheme, String host, Integer port, String path) {
@@ -38,7 +51,8 @@ public class ExternalApiSteps {
     public void aGETRequestIsSentToTheUrl() {
         String url = testDataEnhancer.getData("url", String.class);
         log.info("Performing get request to ::" + url);
-        ResponseEntity<String> response = customRestTemplate.getForEntity(url, String.class);
+        RestTemplate restTemplate = testDataEnhancer.getData("restTemplate", RestTemplate.class);
+        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
         testDataEnhancer.setData("response", response);
     }
 
@@ -68,7 +82,8 @@ public class ExternalApiSteps {
                 .path(testDataEnhancer.getData("path", String.class))
                 .build();
 
-        var responseEntity = customRestTemplate.exchange(uriComponents.toString(), HttpMethod.POST, entity, String.class);
+        RestTemplate restTemplate = testDataEnhancer.getData("restTemplate", RestTemplate.class);
+        var responseEntity = restTemplate.exchange(uriComponents.toString(), HttpMethod.POST, entity, String.class);
         testDataEnhancer.setData("response", responseEntity);
     }
 
