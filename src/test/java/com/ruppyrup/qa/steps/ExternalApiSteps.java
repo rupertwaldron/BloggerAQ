@@ -1,5 +1,6 @@
-package com.ruppyrup.qa;
+package com.ruppyrup.qa.steps;
 
+import com.ruppyrup.qa.TestData;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
 import io.cucumber.java.en.Given;

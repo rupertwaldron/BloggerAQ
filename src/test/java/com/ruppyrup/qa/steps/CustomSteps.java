@@ -1,4 +1,4 @@
-package com.ruppyrup.qa;
+package com.ruppyrup.qa.steps;
 
 import com.ruppyrup.SpringBean;
 import io.cucumber.java.en.Given;
