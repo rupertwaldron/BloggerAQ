@@ -52,6 +52,23 @@ tasks.register("runCukesTest", Test) {
     }
 }
 
+tasks.register("runTranslationCukesTest", Test) {
+    include "**/com/ruppyrup/qa/runners/translationrunner/*"
+//    exclude "**/com/ruppyrup/qa/runners/beanrunner/*"
+    useJUnitPlatform()
+    configure {
+        group = 'verification'
+    }
+}
+
+tasks.register("runBeanCukesTest", Test) {
+    exclude "**/com/ruppyrup/qa/runners/translationrunner/*"
+    useJUnitPlatform()
+    configure {
+        group = 'verification'
+    }
+}
+
 wrapper {
     gradleVersion '8.3'
     distributionType Wrapper.DistributionType.ALL

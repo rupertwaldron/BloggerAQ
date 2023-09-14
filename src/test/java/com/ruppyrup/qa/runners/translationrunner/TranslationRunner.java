@@ -1,4 +1,4 @@
-package com.ruppyrup.qa;
+package com.ruppyrup.qa.runners.translationrunner;
 
 
 import org.junit.platform.suite.api.ConfigurationParameter;
@@ -20,6 +20,6 @@ import static io.cucumber.junit.platform.engine.Constants.GLUE_PROPERTY_NAME;
 @IncludeEngines("cucumber")
 @SelectClasspathResource("features")
 @ConfigurationParameter(key = GLUE_PROPERTY_NAME, value = "com.ruppyrup.qa")
-@IncludeTags({"Translation", "SpringBean"})
-public class CucumberRunner {
+@IncludeTags("Translation")
+public class TranslationRunner {
 }

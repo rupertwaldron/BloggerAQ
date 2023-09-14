@@ -11,7 +11,7 @@ Feature: Translator api tests
   @Translation
   @Eureka
   Scenario: can translate a message from a eureka instance
-    Given the url with scheme "http", host "translation-service", port 0 and path "translation" can be tested
+    Given the url with scheme "http", host "translation-service", port 50 and path "translation" can be tested
     When a POST request is sent to the url with body "Hello Rupert's from new blog"
     Then a response is received with status code 200
     Then the response "Bonjour Rupert's de nouveau blog" is received

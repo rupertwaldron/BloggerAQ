@@ -1,4 +1,4 @@
-package com.ruppyrup.qa;
+package com.ruppyrup.qa.scenariodata;
 
 import java.util.HashMap;
 import java.util.Map;
