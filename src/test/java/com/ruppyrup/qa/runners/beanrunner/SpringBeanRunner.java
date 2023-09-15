@@ -1,4 +1,4 @@
-package com.ruppyrup.qa.runners.translationrunner;
+package com.ruppyrup.qa.runners.beanrunner;
 
 
 import com.ruppyrup.qa.runners.CukeAnnotation;
@@ -12,6 +12,6 @@ import static io.cucumber.junit.platform.engine.Constants.GLUE_PROPERTY_NAME;
 import static io.cucumber.junit.platform.engine.Constants.PLUGIN_PROPERTY_NAME;
 
 @CukeAnnotation
-@IncludeTags("Translation")
-public class TranslationRunner {
+@IncludeTags({"SpringBean"})
+public class SpringBeanRunner {
 }

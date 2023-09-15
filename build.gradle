@@ -43,7 +43,7 @@ test {
     useJUnitPlatform()
 }
 
-tasks.register("runCukesTest", Test) {
+tasks.register("runAllCukesTest", Test) {
     systemProperty "jwtToken", "99"
     systemProperty "dbPassword", "chimp"
     useJUnitPlatform()
@@ -54,14 +54,13 @@ tasks.register("runCukesTest", Test) {
 
 tasks.register("runTranslationCukesTest", Test) {
     include "**/com/ruppyrup/qa/runners/translationrunner/*"
-//    exclude "**/com/ruppyrup/qa/runners/beanrunner/*"
     useJUnitPlatform()
     configure {
         group = 'verification'
     }
 }
 
-tasks.register("runBeanCukesTest", Test) {
+tasks.register("runSpringBeanCukesTest", Test) {
     exclude "**/com/ruppyrup/qa/runners/translationrunner/*"
     useJUnitPlatform()
     configure {
@@ -74,4 +73,4 @@ wrapper {
     distributionType Wrapper.DistributionType.ALL
 }
 
-check.dependsOn("runCukesTest")
+check.dependsOn("runAllCukesTest")
