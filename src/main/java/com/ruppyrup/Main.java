@@ -12,6 +12,5 @@ public class Main {
 
         SpringBean bean = context.getBean(SpringBean.class);
         bean.printProperties();
-
     }
 }
