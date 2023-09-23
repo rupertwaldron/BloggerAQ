@@ -112,7 +112,7 @@ public class ExternalApiSteps {
                 .build();
 
         RestTemplate restTemplate = testDataEnhancer.getData("restTemplate", RestTemplate.class);
-        var responseEntity = restTemplate.exchange(uriComponents.toString(), HttpMethod.POST, entity, String.class);
+        var responseEntity = restTemplate.postForEntity(uriComponents.toString(), entity, String.class);
         testDataEnhancer.setData("response", responseEntity);
     }
 

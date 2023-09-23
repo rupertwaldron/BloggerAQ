@@ -40,21 +40,21 @@ dependencies {
     testImplementation 'org.assertj:assertj-core:3.23.1'
 }
 
-test {
-    useJUnitPlatform()
+test { // this is the basic test
+    useJUnitPlatform() // using JUnit 5
 }
 
-tasks.register("runAllCukesTest", Test) {
+tasks.register("runAllCukesTest", Test) {// Similar to above to shows how to add parameters if you aren't using the application.yml
     systemProperty "jwtToken", "99"
     systemProperty "dbPassword", "chimp"
     useJUnitPlatform()
-    configure {
+    configure { // This will be this task into the verification group in the Gradle tasks
         group = 'verification'
     }
 }
 
 tasks.register("runTranslationCukesTest", Test) {
-    include "**/com/ruppyrup/qa/runners/translationrunner/*"
+    include "**/com/ruppyrup/qa/runners/translationrunner/*" // includes this directory
     useJUnitPlatform()
     configure {
         group = 'verification'
@@ -62,7 +62,7 @@ tasks.register("runTranslationCukesTest", Test) {
 }
 
 tasks.register("runSpringBeanCukesTest", Test) {
-    exclude "**/com/ruppyrup/qa/runners/translationrunner/*"
+    exclude "**/com/ruppyrup/qa/runners/translationrunner/*" // excludes this directory
     useJUnitPlatform()
     configure {
         group = 'verification'
