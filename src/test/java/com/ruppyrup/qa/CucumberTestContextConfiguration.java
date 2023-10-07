@@ -1,6 +1,7 @@
 package com.ruppyrup.qa;
 
 import io.cucumber.spring.CucumberContextConfiguration;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.kafka.test.context.EmbeddedKafka;
@@ -12,7 +13,7 @@ import org.springframework.kafka.test.context.EmbeddedKafka;
  */
 @EnableDiscoveryClient
 @CucumberContextConfiguration
-@EmbeddedKafka(topics = "test-topic", partitions = 1)
+@EmbeddedKafka
 @SpringBootTest
 public class CucumberTestContextConfiguration {
 }

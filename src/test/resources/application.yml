@@ -10,8 +10,6 @@ eureka:
     enabled: false
 
 spring:
-  profiles:
-    active: test
   kafka:
     topic:
       name: test-topic
