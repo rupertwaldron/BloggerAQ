@@ -41,7 +41,7 @@ public class ExternalApiSteps {
      * scenario has. Then if we find the @Eureka tag we set the loadbalancedResttemplate as the restTemplate for the scenario
      * @param scenario
      */
-    @Before
+    @Before("@Translation")
     public void setRestTemplate(Scenario scenario) {
         boolean containsEurekaTag = scenario.getSourceTagNames().stream().anyMatch("@Eureka"::equals);
         if (containsEurekaTag) {

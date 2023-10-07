@@ -4,6 +4,25 @@ dbPassword: chimp
 eureka:
   client:
     registerWithEureka: false
-    fetchRegistry: true
+    fetchRegistry: false
     serviceUrl:
       defaultZone: ${EUREKA_SERVER:http://localhost:8761/eureka}
+    enabled: false
+
+spring:
+  profiles:
+    active: test
+  kafka:
+    topic:
+      name: test-topic
+    consumer:
+      bootstrap-servers: ${spring.embedded.kafka.brokers}
+      auto-offset-reset: earliest
+      group-id: test-group
+    listener:
+      ack-mode: manual
+      client-id: test-client-id
+      concurrency: 10
+      type: batch
+    admin:
+      client-id: admin-test-client-id
