@@ -1,8 +1,7 @@
 package com.ruppyrup.qa.steps;
 
 import com.ruppyrup.qa.scenariodata.TestData;
-import com.ruppyrup.qa.steps.kafka.KafkaConsumer;
-import com.ruppyrup.qa.steps.kafka.KafkaProducer;
+import io.cucumber.java.After;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -13,12 +12,6 @@ import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.kafka.core.ConsumerFactory;
-import org.springframework.kafka.core.ProducerFactory;
-import org.springframework.kafka.test.EmbeddedKafkaBroker;
-import org.springframework.kafka.test.context.EmbeddedKafka;
-import org.springframework.test.context.TestPropertySource;
 
 import java.time.Duration;
 import java.util.List;
@@ -39,10 +32,17 @@ public class KafkaSteps {
 //    private KafkaConsumer consumer;
 
     @Autowired
-    private ConsumerFactory<String, String> consumerFactory;
+    private Consumer<String, String> consumer;
 
     @Autowired
-    private ProducerFactory<String, String> producerFactory;
+    private Producer<String, String> producer;
+
+    @After("@Kafka")
+    void close() {
+        producer.flush();
+        consumer.close();
+        producer.close();
+    }
 
 
     @Value("${spring.kafka.topic.name}")
@@ -50,9 +50,7 @@ public class KafkaSteps {
 
 
     @Given("there is an actual embedded kafka")
-    public void thereIsAnActualEmbeddedKafka() throws Exception {
-        try (Consumer<String, String> consumer = consumerFactory.createConsumer();
-             Producer<String, String> producer = producerFactory.createProducer();) {
+    public void thereIsAnActualEmbeddedKafka() throws Exception { {
             consumer.subscribe(List.of(TOPIC_NAME));
 
             producer.send(new ProducerRecord<>(TOPIC_NAME, "key", "Rupert was here"), (metadata, exception) -> {

@@ -1,13 +1,14 @@
 package com.ruppyrup.qa;
 
 import com.ruppyrup.qa.scenariodata.TestData;
-import com.ruppyrup.qa.steps.kafka.KafkaConsumer;
-import com.ruppyrup.qa.steps.kafka.KafkaProducer;
 import io.cucumber.spring.ScenarioScope;
+import org.apache.kafka.clients.consumer.Consumer;
+import org.apache.kafka.clients.producer.Producer;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.core.ConsumerFactory;
+import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
@@ -30,12 +31,12 @@ public class TestConfig {
     }
 
     @Bean
-    public KafkaConsumer kafkaConsumer() {
-        return new KafkaConsumer();
+    public Consumer<String, String> kafkaConsumer(ConsumerFactory<String, String> consumerFactory) {
+        return consumerFactory.createConsumer("consumer", null);
     }
 
     @Bean
-    public KafkaProducer kafkaProducer(KafkaTemplate<String, String> kafkaTemplate) {
-        return new KafkaProducer(kafkaTemplate);
+    public Producer<String, String> kafkaProducer(ProducerFactory<String, String> producerFactory) {
+        return producerFactory.createProducer();
     }
 }
