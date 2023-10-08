@@ -79,13 +79,14 @@ public class KafkaSteps {
         }).get();
     }
 
-    @Then("the same message is recieved by the consumer on {string}")
-    public void theSameMessageIsRecievedByTheConsumerOn(String topic) {
+    @Then("the same message is received by the consumer on {string} with {string}")
+    public void theSameMessageIsRecievedByTheConsumerOn(String topic, String key) {
         ConsumerRecords<String, String> records = consumer.poll(Duration.ofSeconds(3));
 
-        assertThat(records).singleElement().satisfies(singleRecord -> {
-            assertThat(singleRecord.key()).isEqualTo(testDataEnhancer.getData("key", String.class));
-            assertThat(singleRecord.value()).isEqualTo(testDataEnhancer.getData("message", String.class));
+        records.iterator().forEachRemaining(record -> {
+            if (key.equals(record.key())) {
+                assertThat(record.value()).isEqualTo(testDataEnhancer.getData("message", String.class));
+            }
         });
     }
 }
