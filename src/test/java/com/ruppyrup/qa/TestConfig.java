@@ -30,11 +30,13 @@ public class TestConfig {
         return new RestTemplate();
     }
 
+    @ScenarioScope
     @Bean
     public Consumer<String, String> kafkaConsumer(ConsumerFactory<String, String> consumerFactory) {
         return consumerFactory.createConsumer("consumer", null);
     }
 
+    @ScenarioScope
     @Bean
     public Producer<String, String> kafkaProducer(ProducerFactory<String, String> producerFactory) {
         return producerFactory.createProducer();

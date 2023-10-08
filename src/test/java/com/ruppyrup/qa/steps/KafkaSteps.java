@@ -65,4 +65,27 @@ public class KafkaSteps {
             assertThat(singleRecord.value()).isEqualTo(testDataEnhancer.getData("message", String.class));
         });
     }
+
+    @Given("the consumer subscribes to the test {string}")
+    public void theConsumerSubscribesToTheTest(String topic) {
+        consumer.subscribe(List.of(topic));
+    }
+
+    @When("a message is sent with key: {string} and message: {string} to {string}")
+    public void aMessageIsSentWithKeyAndMessageTo(String key, String message, String topic) throws ExecutionException, InterruptedException {
+        testDataEnhancer.setData("key", key);
+        testDataEnhancer.setData("message", message);
+        producer.send(new ProducerRecord<>(topic, key, message), (metadata, exception) -> {
+        }).get();
+    }
+
+    @Then("the same message is recieved by the consumer on {string}")
+    public void theSameMessageIsRecievedByTheConsumerOn(String topic) {
+        ConsumerRecords<String, String> records = consumer.poll(Duration.ofSeconds(3));
+
+        assertThat(records).singleElement().satisfies(singleRecord -> {
+            assertThat(singleRecord.key()).isEqualTo(testDataEnhancer.getData("key", String.class));
+            assertThat(singleRecord.value()).isEqualTo(testDataEnhancer.getData("message", String.class));
+        });
+    }
 }
